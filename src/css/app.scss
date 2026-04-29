@@ -1,1 +1,171 @@
 // app global css
+// app global css in SCSS form
+:root{
+    --q-indigo: #164FA4;
+    --q-indigo-1: #EDEDFB;
+    --q-indigo-2: #D8DBF6;
+    --q-indigo-3: #C4C8EF;
+    --q-indigo-4: #ACB5E6;
+    --q-indigo-5: #96A1DC;
+    --q-indigo-6: #7D8ECF;
+    --q-indigo-7: #667BC3;
+    --q-indigo-8: #4B6BB8;
+    --q-indigo-9: #345CAE;
+
+    --q-blue: #7CBDE2;
+    --q-blue-1: #F5F9FE;
+    --q-blue-2: #EAF3FC;
+    --q-blue-3: #DEEDFA;
+    --q-blue-4: #D1E6F7;
+    --q-blue-5: #C4DFF4;
+    --q-blue-6: #B8D9F1;
+    --q-blue-7: #ABD2ED;
+    --q-blue-8: #9CCCEA;
+    --q-blue-9: #8EC5E6;
+
+    --q-orange: #E84C19;
+    --q-orange-1: #FFF2EA;
+    --q-orange-2: #FFE4D2;
+    --q-orange-3: #FFD2BA;
+    --q-orange-4: #FFC1A1;
+    --q-orange-5: #FEB189;
+    --q-orange-6: #FDA074;
+    --q-orange-7: #FB8E5A;
+    --q-orange-8: #F37743;
+    --q-orange-9: #ED622D;
+
+    --q-dark: #25282b; 
+    --q-light: #e8e8e8;
+}
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 100;
+    src: url(./fonts/Montserrat-Thin.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 100;
+    src: url(./fonts/Montserrat-ThinItalic.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 200;
+    src: url(./fonts/Montserrat-ExtraLight.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 200;
+    src: url(./fonts/Montserrat-ExtraLightItalic.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 300;
+    src: url(./fonts/Montserrat-Light.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 300;
+    src: url(./fonts/Montserrat-LightItalic.woff) format("woff");
+}
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    src: url(./fonts/Montserrat-Regular.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 400;
+    src: url(./fonts/Montserrat-Italic.woff) format("woff");
+}
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    src: url(./fonts/Montserrat-Medium.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 500;
+    src: url(./fonts/Montserrat-MediumItalic.woff) format("woff");
+}
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    src: url(./fonts/Montserrat-SemiBold.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 600;
+    src: url(./fonts/Montserrat-SemiBoldItalic.woff) format("woff");
+}
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 700;
+    src: url(./fonts/Montserrat-Bold.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 700;
+    src: url(./fonts/Montserrat-BoldItalic.woff) format("woff");
+}
+
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    src: url(./fonts/Montserrat-ExtraBold.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 800;
+    src: url(./fonts/Montserrat-ExtraBoldItalic.woff) format("woff");
+}
+
+
+@font-face {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 900;
+    src: url(./fonts/Montserrat-Black.woff) format("woff");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-style: italic;
+    font-weight: 900;
+    src: url(./fonts/Montserrat-BlackItalic.woff) format("woff");
+}
