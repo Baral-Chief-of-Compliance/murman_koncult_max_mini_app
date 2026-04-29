@@ -50,7 +50,7 @@ export default defineConfig((ctx) => {
       // publicPath: '/',
       // analyze: true,
       env: {
-        API: ctx.dev ? 'http://localhost:8000/api/v1.0' : 'https://172.25.31.33:3000/api/v1.0'
+        API: ctx.dev ? 'http://localhost:3001/api/v1.0/czn-kiosk/vacansy-controller' : 'https://172.25.31.33:3000/api/v1.0/czn-kiosk/vacansy-controller'
       },
       // rawDefine: {}
       // ignorePublicFolder: true,

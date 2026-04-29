@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-white text-primary">
       <q-toolbar>
         <q-btn
           flat
@@ -12,10 +12,9 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <app-logo />
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -39,7 +38,9 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <footer-component />
+
+    <q-page-container class="bg-grey-1">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -47,7 +48,10 @@
 
 <script setup>
 import { ref } from 'vue'
+
 import EssentialLink from 'components/EssentialLink.vue'
+import FooterComponent from 'src/components/FooterComponent.vue'
+import AppLogo from 'src/components/AppLogo.vue'
 
 const linksList = [
   {
