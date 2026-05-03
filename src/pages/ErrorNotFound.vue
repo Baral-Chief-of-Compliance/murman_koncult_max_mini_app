@@ -1,23 +1,42 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen bg-grey-1 text-indigo text-center q-pa-md flex flex-center">
     <div>
-      <div style="font-size: 30vh">
-        404
+      <div :style="iconStyle">
+        \_(ツ)_/
       </div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+      <div :class="textClass" style="opacity:.4">
+        Упс, какжется здесь ничего нет...
       </div>
 
       <q-btn
+        rounded
         class="q-mt-xl"
-        color="white"
-        text-color="blue"
+        color="orange"
+        text-color="white"
         unelevated
         to="/"
-        label="Go Home"
+        label="На главную"
         no-caps
       />
     </div>
   </div>
 </template>
+
+
+<script setup>
+import { computed } from 'vue';
+import { useWindowSize } from '@vueuse/core';
+
+const {width: widthWindow } = useWindowSize()
+
+const iconStyle = computed(() => ({
+  'font-size': widthWindow.value > 1000 ? '30vh' : '10vw'
+}))
+
+const textClass = computed(() => ({
+  'text-h2': widthWindow.value > 1000,
+  'text-h5': widthWindow.value <= 1000
+}))
+
+</script>

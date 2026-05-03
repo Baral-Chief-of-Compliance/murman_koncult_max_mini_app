@@ -1,15 +1,21 @@
 <template>
   <q-item
     clickable
+    :to="props.to"
     tag="a"
-    target="_blank"
-    :href="props.link"
   >
+
+    <!-- tag="a"
+    :href="props.link"
+    target='_blanc' -->
     <q-item-section
       v-if="props.icon"
       avatar
     >
-      <q-icon :name="props.icon" />
+      <q-icon 
+        :name="props.icon"
+        color="orange"
+      />
     </q-item-section>
 
     <q-item-section>
@@ -20,6 +26,7 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
   title: {
     type: String,
@@ -37,6 +44,11 @@ const props = defineProps({
   },
 
   icon: {
+    type: String,
+    default: ''
+  },
+
+  to: {
     type: String,
     default: ''
   }

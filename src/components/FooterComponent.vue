@@ -1,5 +1,5 @@
 <template>
-    <q-footer elevated class="bg-white text-primary">
+    <q-footer elevated class="bg-white text-indigo">
       <q-toolbar class="text-center">
         <q-toolbar-title :style="footerNameStyle">{{ footerName }}</q-toolbar-title>
       </q-toolbar>

@@ -27,7 +27,7 @@
         <q-item-label
           header
         >
-          Essential Links
+          Разделы
         </q-item-label>
 
         <EssentialLink
@@ -41,6 +41,8 @@
     <footer-component />
 
     <q-page-container class="bg-grey-1">
+      <meta-info />
+      <bread-crumbs-panel />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -52,50 +54,29 @@ import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
 import AppLogo from 'src/components/AppLogo.vue'
+import BreadCrumbsPanel from 'src/components/BreadCrumbsPanel.vue'
+import { VACANCIES, DISTRICTS, FAVORITE } from 'src/router/pathName'
+import MetaInfo from 'src/components/MetaInfo.vue'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Районы',
+    caption: 'Выберите район поиска',
+    icon: 'location_on',
+    to: {name: DISTRICTS}
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Вакансии',
+    caption: 'Все вакансии в области',
+    icon: 'engineering',
+    to: {name: VACANCIES}
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: 'Избранное',
+    caption: 'Ваши выбранные вакансии',
+    icon: 'star',
+    to: { name: FAVORITE}
   },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ]
 
 const leftDrawerOpen = ref(false)
