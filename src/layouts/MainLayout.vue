@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-white text-primary">
+    <q-header elevated class="bg-white text-primary" ref="headerRef">
       <q-toolbar>
         <q-btn
           flat
@@ -38,18 +38,18 @@
       </q-list>
     </q-drawer>
 
-    <footer-component />
+    <footer-component ref="footerRef" />
 
     <q-page-container class="bg-grey-1">
       <meta-info />
-      <bread-crumbs-panel />
+      <bread-crumbs-panel ref="breadCrumbRef" />
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 
 import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
@@ -57,6 +57,18 @@ import AppLogo from 'src/components/AppLogo.vue'
 import BreadCrumbsPanel from 'src/components/BreadCrumbsPanel.vue'
 import { VACANCIES, DISTRICTS, FAVORITE } from 'src/router/pathName'
 import MetaInfo from 'src/components/MetaInfo.vue'
+import { useElementSize } from '@vueuse/core'
+
+
+const footerRef = ref(null)
+const headerRef = ref(null)
+const breadCrumbRef = ref(null)
+const {height: footerHeight} = useElementSize(footerRef)
+const {height: headerHeight} = useElementSize(headerRef) 
+const {height: breadCrumbHeight} = useElementSize(breadCrumbRef)
+provide('footerHeight', footerHeight)
+provide('headerHeight', headerHeight)
+provide('breadCrumbHeight', breadCrumbHeight)
 
 const linksList = [
   {
