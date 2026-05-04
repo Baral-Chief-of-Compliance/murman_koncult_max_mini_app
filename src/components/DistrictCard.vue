@@ -2,6 +2,7 @@
     <q-card  
         :style="cardStyle"
         class="q-mb-sm"
+        @click="selectDistrict()"
     >
         <q-card-section>
             <div class="row">
@@ -19,6 +20,10 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useDistircts } from 'src/stores/districts-store';
+
+const districtStore = useDistircts()
+
 
 const cardStyle = computed(() => ({
     borderRadius: '10px !important'
@@ -50,6 +55,18 @@ const props = defineProps({
         default: 100
     }
 })
+
+
+/**
+ * Выбрать район
+ */
+const selectDistrict = () => {
+    districtStore.districtId = props.districtId
+    districtStore.districtName = props.districtName
+    districtStore.districtMaxCode = props.districtMaxCode
+    districtStore.districtMinCode = props.districtMinCode
+    districtStore.workPlaces = props.workPlaces
+}
 </script>
 
 <style scoped>

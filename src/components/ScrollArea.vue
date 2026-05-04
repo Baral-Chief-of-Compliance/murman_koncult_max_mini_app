@@ -19,16 +19,16 @@ const styleScrolArea = computed(() => ({
 }))
 
 const styleBar = computed(() => ({
-    borderRadius: '10px',
+    borderRadius: '5px',
     backgroundColor: '#7CBDE2',
-    width: '30px',
+    width: '10px',
     opacity: 0.2
 }))
 
 const styleThumb = computed(() => ({
-    borderRadius: '10px',
+    borderRadius: '5px',
     backgroundColor: '#164FA4',
-    width: '30px',
+    width: '10px',
     opacity: 0.75
 }))
 

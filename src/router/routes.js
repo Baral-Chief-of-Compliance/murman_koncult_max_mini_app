@@ -1,4 +1,4 @@
-import { VACANCIES, DISTRICTS, FAVORITE, INDEX } from './pathName'
+import { VACANCIES, DISTRICTS, FAVORITE, INDEX, DISTRICTS_DETAIL } from './pathName'
 
 
 const routes = [
@@ -8,6 +8,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue'), name: INDEX},
       { path: DISTRICTS, component: () => import('pages/DistrictsPage.vue'), name: DISTRICTS},
+      { path: DISTRICTS + '/:id(\\d+)', component: () => import('pages/DistrictsDetailPage.vue'), name: DISTRICTS_DETAIL},
       { path: VACANCIES, component: () => import('pages/VacanciesPage.vue'), name: VACANCIES},
       { path: FAVORITE, component: () => import('pages/FavoritePage.vue'), name: FAVORITE}
     ]

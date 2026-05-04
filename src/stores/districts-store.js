@@ -16,7 +16,7 @@ export const useDistircts = defineStore('districts', {
          */
         setStore(data){
             this.districts = data
-        }
+        },
     },
     getters: {
         /**

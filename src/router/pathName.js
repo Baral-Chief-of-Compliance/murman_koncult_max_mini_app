@@ -1,4 +1,5 @@
 export const INDEX = 'index'
 export const DISTRICTS = 'districts'
+export const DISTRICTS_DETAIL = 'districts_detail'
 export const VACANCIES = 'vacancies'
 export const FAVORITE = 'favorite'
