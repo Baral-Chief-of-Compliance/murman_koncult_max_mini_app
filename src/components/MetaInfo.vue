@@ -2,9 +2,13 @@
 import { useMeta } from 'quasar'
 import { onMounted } from 'vue';
 
+import { useMetaStore } from 'src/stores/meta-store';
+
+const metaStore = useMetaStore()
+
 const metaData = {
   // sets document title
-  title: 'Главная',
+  title: metaStore.titel,
   // optional; sets final title as "Index Page - My Website", useful for multiple level meta
   titleTemplate: title => `${title} - Кадровый навигатор 51`,
 

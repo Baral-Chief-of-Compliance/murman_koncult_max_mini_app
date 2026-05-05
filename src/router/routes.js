@@ -1,4 +1,5 @@
-import { VACANCIES, DISTRICTS, FAVORITE, INDEX, DISTRICTS_DETAIL } from './pathName'
+import { VACANCIES, DISTRICTS, FAVORITE, INDEX,
+  DISTRICTS_DETAIL, NOT_FOUND, SERVER_ERROR} from './pathName'
 
 
 const routes = [
@@ -16,7 +17,8 @@ const routes = [
 
   // Always leave this as last one,
   // but you can also remove it
-  { path: '/:catchAll(.*)*', component: () => import('pages/ErrorNotFound.vue')}
+  { path: '/:catchAll(.*)*', component: () => import('pages/ErrorNotFound.vue'), name: NOT_FOUND},
+  { path: '/server-error', component: () => import('pages/ErrorServerPage.vue'), name: SERVER_ERROR}
 ]
 
 export default routes

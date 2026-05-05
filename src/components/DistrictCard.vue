@@ -20,7 +20,13 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
 import { useDistircts } from 'src/stores/districts-store';
+import { DISTRICTS_DETAIL } from 'src/router/pathName';
+
+
+const router = useRouter()
 
 const districtStore = useDistircts()
 
@@ -61,11 +67,12 @@ const props = defineProps({
  * Выбрать район
  */
 const selectDistrict = () => {
-    districtStore.districtId = props.districtId
+    districtStore.districtId = props.id
     districtStore.districtName = props.districtName
     districtStore.districtMaxCode = props.districtMaxCode
     districtStore.districtMinCode = props.districtMinCode
     districtStore.workPlaces = props.workPlaces
+    router.push({name: DISTRICTS_DETAIL, params: {id: districtStore.districtId}})
 }
 </script>
 

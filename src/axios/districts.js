@@ -21,7 +21,7 @@ export async function getDistricts(){
  */
 export async function getDistrictDetail(districtId){
     const res = await api.get(
-        `vacansy-controller/districts/${districtId}/`
+        `/districts/${districtId}/`
     )
 
     return res

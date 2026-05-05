@@ -18,13 +18,15 @@
 
 <script setup>
 import { onMounted, ref, inject, computed } from 'vue';
+import { useWindowSize } from '@vueuse/core';
 
 import LoadingComponent from 'src/components/LoadingComponent.vue';
 import { useDistircts } from 'src/stores/districts-store';
 import { getDistricts } from 'src/axios/districts';
 import DistrictCard from 'src/components/DistrictCard.vue';
 import ScrollArea from 'src/components/ScrollArea.vue';
-import { useWindowSize } from '@vueuse/core';
+import { useMetaStore } from 'src/stores/meta-store';
+
 
 const loading = ref(true)
 
@@ -33,6 +35,7 @@ const headerHeight = inject('headerHeight')
 const breadCrumbHeight = inject('breadCrumbHeight')
 
 const districtStore = useDistircts()
+const metaStore = useMetaStore()
 
 const {height: windowHeight} = useWindowSize()
 
@@ -41,6 +44,8 @@ const scrollAreaHeight = computed(() => {
 })
 
 onMounted(async() => {
+    metaStore.setTitel('Районы')
+    
     const res = await getDistricts()
 
     if (res.status !== 200){

@@ -17,6 +17,17 @@ export const useDistircts = defineStore('districts', {
         setStore(data){
             this.districts = data
         },
+
+        /**
+         * Сброс параметров выбранного района
+         */
+        resetStore(){
+            this.districtId = null
+            this.districtName = null
+            this.districtMinCode = null
+            this.districtMaxCode = null
+            this.workPlaces = 0
+        }
     },
     getters: {
         /**
