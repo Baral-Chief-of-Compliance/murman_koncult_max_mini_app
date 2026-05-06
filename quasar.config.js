@@ -40,14 +40,14 @@ export default defineConfig((ctx) => {
         node: 'node22'
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: ctx.dev ? 'hash' : 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
+      publicPath: '/murman_koncult_max_mini_app/',
       // analyze: true,
       env: {
         API: ctx.dev ? 'http://localhost:3001/api/v1.0/czn-kiosk/vacansy-controller' : 'https://172.25.31.33:3000/api/v1.0/czn-kiosk/vacansy-controller'
