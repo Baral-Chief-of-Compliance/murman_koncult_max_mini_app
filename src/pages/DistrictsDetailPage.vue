@@ -1,6 +1,6 @@
 <template>
-    <q-page>
-        
+    <q-page class="flex flex-center text-center">
+        <empty-content />
     </q-page>
 </template>
 
@@ -11,6 +11,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useDistircts } from 'src/stores/districts-store';
 import { getDistrictDetail } from 'src/axios/districts';
 import { NOT_FOUND, SERVER_ERROR } from 'src/router/pathName';
+import EmptyContent from 'src/components/EmptyContent.vue';
 
 
 const route = useRoute()
