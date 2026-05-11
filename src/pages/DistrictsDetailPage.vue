@@ -1,18 +1,41 @@
 <template>
-    <q-page class="flex flex-center text-center">
-        <empty-content />
-    </q-page>
+    <page-container
+        :flex="false"
+    >
+        <!-- <empty-content /> -->
+        <template #content>
+            <infinite-scroll @on-load="onLoad">
+                    <div class="q-mx-md">  
+                        <vacancy-card 
+                            v-for="(item, index) in items" :key="index"
+                        />
+                    </div>
+            </infinite-scroll>
+        </template>
+    </page-container>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useDistircts } from 'src/stores/districts-store';
 import { getDistrictDetail } from 'src/axios/districts';
 import { NOT_FOUND, SERVER_ERROR } from 'src/router/pathName';
-import EmptyContent from 'src/components/EmptyContent.vue';
+import PageContainer from 'src/components/PageContainer.vue';
+import VacancyCard from 'src/components/VacancyCard.vue';
+import InfiniteScroll from 'src/components/InfiniteScroll.vue';
+// import EmptyContent from 'src/components/EmptyContent.vue';
 
+
+const items = ref([{}, {}, {}, {}, {}, {}, {}])
+
+function onLoad(index, done) {
+setTimeout(() => {
+    items.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+}, 2000)
+}
 
 const route = useRoute()
 const router = useRouter()
