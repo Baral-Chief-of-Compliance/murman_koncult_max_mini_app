@@ -24,20 +24,8 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, inject} from 'vue';
+import { computed, ref, inject} from 'vue';
 import { useWindowSize } from '@vueuse/core';
-
-const props = defineProps({
-  height: {
-    type: String,
-    default: '200px'
-  },
-  // Пропуск для ручного управления загрузкой
-  disableInfiniteScroll: {
-    type: Boolean,
-    default: false
-  }
-})
 
 const emit = defineEmits(['onLoad', 'onScroll'])
 
@@ -49,9 +37,7 @@ const footerHeight = inject('footerHeight')
 const headerHeight = inject('headerHeight')
 const breadCrumbHeight = inject('breadCrumbHeight')
 
-const styleScrollArea = computed(() => ({
-  height: props.height
-}))
+
 
 const styleBar = computed(() => ({
   borderRadius: '5px',
@@ -68,18 +54,14 @@ const styleThumb = computed(() => ({
 }))
 
 // Вычисление высоты, если передано 'auto'
-const scrollAreaHeight = computed(() => {
-  if (props.height !== 'auto') return props.height
-  
+const scrollAreaHeight = computed(() => {  
   return (windowHeight.value - (footerHeight.value + headerHeight.value + breadCrumbHeight.value + 30)) + 'px'
 })
 
-// Обновляем высоту при изменении размеров окна
-watch([windowHeight, footerHeight, headerHeight, breadCrumbHeight], () => {
-  if (props.height === 'auto') {
-    styleScrollArea.value.height = scrollAreaHeight.value
-  }
-})
+const styleScrollArea = computed(() => ({
+  height: scrollAreaHeight.value
+}))
+
 
 const onLoad = (index, done) => {
   emit('onLoad', index, done)

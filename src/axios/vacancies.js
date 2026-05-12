@@ -35,6 +35,34 @@ export async function getVacancies(
 
 }
 
+/**
+ * Получить вакансии все с базы
+ * @param {string} vacanciName
+ * @returns {object} - ответ сервера
+ */
+export async function getAllVacancies(
+    page=1,
+    vacanciName = ''
+){
+    let params = {
+        page: page
+    }
+
+    if (vacanciName.length > 0){
+        params.search = vacanciName
+    }
+    
+    const res = await api.get(
+        `/vacancies/`,
+        {
+            params: params
+        }
+    )
+
+    return res
+
+}
+
 
 /**
  * Получить информацию о вакансии детально
