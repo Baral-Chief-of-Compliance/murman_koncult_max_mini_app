@@ -92,7 +92,6 @@ const secondBreadCrumbLabel = computed(() => {
             if (districtsStore.districtName == null){
                 label = 'Загрузка...'
             }else{
-                console.log(districtsStore.districtName)
                 label = districtsStore.districtName
             }
             break;
