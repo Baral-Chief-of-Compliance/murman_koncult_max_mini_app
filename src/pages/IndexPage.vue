@@ -3,6 +3,11 @@
     <template #content>
       <div class="q-mx-sm">
         <div class="text-indigo text-h4 q-mb-md">Добро пожаловать!</div>
+        <user-data 
+          v-if="userStore.fromMax"
+          :name="userStore.getUserName"
+          :photo-url="userStore.photoUrl"
+        />
         <div class="subtitel-main-page">В наш сервис для поиска вакансий в Мурманской области</div>
 
         <div class="column q-mt-md flex-center">
@@ -19,10 +24,14 @@ import { useRouter } from 'vue-router';
 
 import { DISTRICTS, VACANCIES } from 'src/router/pathName';
 import PageContainer from 'src/components/PageContainer.vue';
+import UserData from 'src/components/UserData.vue';
+import { useUserStore } from 'src/stores/user-store';
 
 
 const router = useRouter()
 
+
+const userStore = useUserStore()
 
 </script>
 

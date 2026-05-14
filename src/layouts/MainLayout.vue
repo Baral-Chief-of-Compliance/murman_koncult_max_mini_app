@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, onMounted } from 'vue'
 
 import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
@@ -58,6 +58,7 @@ import BreadCrumbsPanel from 'src/components/BreadCrumbsPanel.vue'
 import { VACANCIES, DISTRICTS, FAVORITE } from 'src/router/pathName'
 import MetaInfo from 'src/components/MetaInfo.vue'
 import { useElementSize } from '@vueuse/core'
+import { useUserStore } from 'src/stores/user-store'
 
 
 const footerRef = ref(null)
@@ -69,6 +70,9 @@ const {height: breadCrumbHeight} = useElementSize(breadCrumbRef)
 provide('footerHeight', footerHeight)
 provide('headerHeight', headerHeight)
 provide('breadCrumbHeight', breadCrumbHeight)
+
+
+const userStore = useUserStore()
 
 const linksList = [
   {
@@ -96,4 +100,16 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+onMounted(() => {
+  if (Object.keys(window.WebApp.initDataUnsafe).length !== 0){
+    const initData = window.WebApp.initDataUnsafe
+    userStore.fromMax = true
+    userStore.id = initData.user.id
+    userStore.userName = initData.user.username
+    userStore.firstName = initData.user.first_name
+    userStore.lastName = initData.user.last_name
+    userStore.photoUrl = initData.user.photo_url
+  }
+})
 </script>
