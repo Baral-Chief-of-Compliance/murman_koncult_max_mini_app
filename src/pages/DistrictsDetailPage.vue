@@ -2,7 +2,7 @@
     <page-container :flex="false">
         <template #content>
             <!-- Индикатор начальной загрузки -->
-            <loading-component v-if="loading" />
+            <loading-component v-if="vacanciesStore.loading" />
             
             <infinite-scroll
                 v-else
@@ -42,8 +42,6 @@ import { useVacancies } from 'src/stores/vacancies-store';
 import { getVacancies } from 'src/axios/vacancies';
 import LoadingComponent from 'src/components/LoadingComponent.vue';
 
-
-const loading = ref(true);
 const loadMore = ref(true);
 const infiniteScrollRef = ref(null);
 const vacanciesStore = useVacancies();
@@ -112,7 +110,7 @@ onMounted(async () => {
     vacanciesStore.vacancies = [];
     vacanciesStore.currentPage = 1;
     loadMore.value = true;
-    loading.value = true;
+    vacanciesStore.loading = true;
     
     // Если район другой или не загружен
     if (districtsStore.districtId == null || districtsStore.districtId !== route.params.id) {
@@ -141,7 +139,7 @@ onMounted(async () => {
                 infiniteScrollRef.value.triggerLoad();
             }
             
-            loading.value = false;
+            vacanciesStore.loading = false;
             
             // Дополнительная проверка: если контента мало, infinite scroll может не сработать
             setTimeout(() => {
@@ -151,7 +149,7 @@ onMounted(async () => {
             }, 100);
 
         } catch(error) {
-            loading.value = false;
+            vacanciesStore.loading = false;
             if (error.response?.status === 404) {
                 await router.push({name: NOT_FOUND});
             } else {
@@ -161,7 +159,7 @@ onMounted(async () => {
         }
     } else {
         // Если район уже загружен, просто показываем вакансии
-        loading.value = false;
+        vacanciesStore.loading = false;
         await nextTick();
         if (infiniteScrollRef.value) {
             infiniteScrollRef.value.triggerLoad();

@@ -9,7 +9,7 @@
         </q-card-section>
         
         <q-card-actions align="right">
-            <q-btn size="md" icon="star" unelevated color="blue" outline  />
+            <q-btn v-if="userStore.fromMax" size="md" icon="star" unelevated color="blue" outline  />
             <q-btn size="md" icon="more_horiz" unelevated color="blue" outline  />
         </q-card-actions>
     </q-card>
@@ -17,12 +17,15 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useUserStore } from 'src/stores/user-store';
 // import { useQuasar } from 'quasar';
 
 // import VacancieDetailDialog from './VacancieDetailDialog.vue';
 
 
 // const $q = useQuasar()
+
+const userStore = useUserStore()
 
 const props = defineProps({
     id:{

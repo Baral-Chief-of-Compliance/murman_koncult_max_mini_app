@@ -28,10 +28,26 @@ export const useUserStore = defineStore('user', {
 
     getters: {
         /**
-         * Получить имя пользователя
-         * @returns 
+         * Получить имя пользователя для главной страницы
+         * @returns {string}
          */
         getUserName(state){
+            if (state.firstName != null && state.lastName != null){
+                return state.firstName
+            }else{
+                if (state.userName != null){
+                    return state.userName
+                }else{
+                    return ''
+                }
+            }
+        },
+
+        /**
+         * Получить полное имя с фамилией пользователя
+         * @returns {string}
+         */
+        getFullUserName(state) {
             if (state.firstName != null && state.lastName != null){
                 return `${state.firstName} ${state.lastName}`
             }else{

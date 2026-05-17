@@ -23,7 +23,7 @@
       show-if-above
       bordered
     >
-      <q-list>
+      <q-list :style="drawerStyle">
         <q-item-label
           header
         >
@@ -36,6 +36,13 @@
           v-bind="link"
         />
       </q-list>
+
+
+      <user-info-header 
+        v-if="userStore.fromMax"
+        :full-name="userStore.getFullUserName"
+        :photo-url="userStore.photoUrl"
+      />
     </q-drawer>
 
     <footer-component ref="footerRef" />
@@ -49,7 +56,7 @@
 </template>
 
 <script setup>
-import { ref, provide, onMounted } from 'vue'
+import { ref, provide, onMounted, computed } from 'vue'
 
 import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
@@ -59,6 +66,7 @@ import { VACANCIES, DISTRICTS, FAVORITE } from 'src/router/pathName'
 import MetaInfo from 'src/components/MetaInfo.vue'
 import { useElementSize } from '@vueuse/core'
 import { useUserStore } from 'src/stores/user-store'
+import UserInfoHeader from 'src/components/UserInfoHeader.vue'
 
 
 const footerRef = ref(null)
@@ -74,26 +82,39 @@ provide('breadCrumbHeight', breadCrumbHeight)
 
 const userStore = useUserStore()
 
-const linksList = [
-  {
-    title: 'Районы',
-    caption: 'Выберите район поиска',
-    icon: 'location_on',
-    to: {name: DISTRICTS}
-  },
-  {
-    title: 'Вакансии',
-    caption: 'Все вакансии в области',
-    icon: 'engineering',
-    to: {name: VACANCIES}
-  },
-  {
-    title: 'Избранное',
-    caption: 'Ваши выбранные вакансии',
-    icon: 'star',
-    to: { name: FAVORITE}
-  },
-]
+const linksList = computed(() => {
+  let list = [
+    {
+      title: 'Районы',
+      caption: 'Выберите район поиска',
+      icon: 'location_on',
+      to: {name: DISTRICTS}
+    },
+    {
+      title: 'Вакансии',
+      caption: 'Все вакансии в области',
+      icon: 'engineering',
+      to: {name: VACANCIES}
+    },
+  ]
+
+  if (userStore.fromMax){
+    list.push(
+      {
+        title: 'Избранное',
+        caption: 'Ваши выбранные вакансии',
+        icon: 'star',
+        to: { name: FAVORITE}
+      }
+    )
+  }
+
+  return list
+}) 
+
+const drawerStyle = computed(() => ({
+  'margin-top': userStore.fromMax ? '150px' : '0px'
+}))
 
 const leftDrawerOpen = ref(false)
 

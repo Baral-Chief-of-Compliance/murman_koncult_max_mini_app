@@ -1,7 +1,7 @@
 <template>
     <page-container :flex="false">
         <template #content>
-            <loading-component v-if="loading" />
+            <loading-component v-if="vacanciesStore.loading" />
             
             <infinite-scroll
                 v-else
@@ -28,8 +28,9 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, nextTick } from 'vue';
+import { onMounted, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 import PageContainer from 'src/components/PageContainer.vue';
 import { useVacancies } from 'src/stores/vacancies-store';
@@ -41,7 +42,6 @@ import { NOT_FOUND, SERVER_ERROR } from 'src/router/pathName';
 
 const router = useRouter();
 
-const loading = ref(true);
 const loadMore = ref(true);
 
 const infiniteScrollRef = ref(null);
@@ -79,6 +79,8 @@ const getVacancy = async (index, done) => {
     
     const res = await getAllVacancies(
         vacanciesStore.currentPage,
+        vacanciesStore.vacancySearchName,
+        vacanciesStore.sortBy
     );
 
     if (res.status !== 200) {
@@ -102,7 +104,7 @@ onMounted(async () => {
     vacanciesStore.vacancies = [];
     vacanciesStore.currentPage = 1;
     loadMore.value = true;
-    loading.value = true;
+    vacanciesStore.loading = true;
     
     // Если район другой или не загружен
     try {
@@ -118,7 +120,7 @@ onMounted(async () => {
             infiniteScrollRef.value.triggerLoad();
         }
         
-        loading.value = false;
+        vacanciesStore.loading = false;
         
         // Дополнительная проверка: если контента мало, infinite scroll может не сработать
         setTimeout(() => {
@@ -128,7 +130,7 @@ onMounted(async () => {
         }, 100);
 
     } catch(error) {
-        loading.value = false;
+        vacanciesStore.loading = false;
         if (error.response?.status === 404) {
             await router.push({name: NOT_FOUND});
         } else {
@@ -137,6 +139,61 @@ onMounted(async () => {
         }
     }
 });
+
+const { sortBy,  vacancySearchName} = storeToRefs(vacanciesStore)
+
+watch(sortBy, async() => {
+    // console.log(`Поиск изменился с "${oldQuery}" на "${newQuery}"`);
+    vacanciesStore.loading = true
+    vacanciesStore.vacancies = []
+    vacanciesStore.currentPage = 1
+
+    const res = await getAllVacancies(
+        vacanciesStore.currentPage,
+        vacanciesStore.vacancySearchName,
+        vacanciesStore.sortBy
+    );
+
+    if (res.status !== 200) {
+        return;
+    }
+
+    vacanciesStore.vacancies = vacanciesStore.vacancies.concat(res.data.results);
+    vacanciesStore.currentPage += 1;
+    if (vacanciesStore.currentPage > res.data.total_pages) {
+        loadMore.value = false;
+    }else{
+        loadMore.value = true
+    }
+
+    vacanciesStore.loading = false
+});
+
+watch(vacancySearchName, async() => {
+    vacanciesStore.loading = true
+    vacanciesStore.vacancies = []
+    vacanciesStore.currentPage = 1
+
+    const res = await getAllVacancies(
+        vacanciesStore.currentPage,
+        vacanciesStore.vacancySearchName,
+        vacanciesStore.sortBy
+    );
+
+    if (res.status !== 200) {
+        return;
+    }
+
+    vacanciesStore.vacancies = vacanciesStore.vacancies.concat(res.data.results);
+    vacanciesStore.currentPage += 1;
+    if (vacanciesStore.currentPage > res.data.total_pages) {
+        loadMore.value = false;
+    }else{
+        loadMore.value = true
+    }
+
+    vacanciesStore.loading = false
+})
 
 onUnmounted(() => {
     vacanciesStore.$reset()

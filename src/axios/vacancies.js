@@ -42,7 +42,8 @@ export async function getVacancies(
  */
 export async function getAllVacancies(
     page=1,
-    vacanciName = ''
+    vacanciName = '',
+    ordering = null
 ){
     let params = {
         page: page
@@ -50,6 +51,10 @@ export async function getAllVacancies(
 
     if (vacanciName.length > 0){
         params.search = vacanciName
+    }
+
+    if (ordering !== null){
+        params.ordering = ordering
     }
     
     const res = await api.get(
