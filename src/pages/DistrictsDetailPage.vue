@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, nextTick } from 'vue';
+import { onMounted, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useDistircts } from 'src/stores/districts-store';
@@ -41,6 +41,8 @@ import InfiniteScroll from 'src/components/InfiniteScroll.vue';
 import { useVacancies } from 'src/stores/vacancies-store';
 import { getVacancies } from 'src/axios/vacancies';
 import LoadingComponent from 'src/components/LoadingComponent.vue';
+import { storeToRefs } from 'pinia';
+
 
 const loadMore = ref(true);
 const infiniteScrollRef = ref(null);
@@ -166,6 +168,47 @@ onMounted(async () => {
         }
     }
 });
+
+
+const { sortBy, vacancySearchName } = storeToRefs(vacanciesStore)
+
+
+const getVacanciesInWatch = async() => {
+    vacanciesStore.loading = true
+    vacanciesStore.vacancies = []
+    vacanciesStore.currentPage = 1
+
+    const res = await getVacancies(
+        districtsStore.districtMinCode,
+        districtsStore.districtMaxCode,
+        vacanciesStore.currentPage,
+        vacanciesStore.vacancySearchName,
+        vacanciesStore.sortBy
+    )
+
+    if (res.status !== 200) {
+        return;
+    }
+
+    vacanciesStore.vacancies = vacanciesStore.vacancies.concat(res.data.results);
+    vacanciesStore.currentPage += 1;
+    if (vacanciesStore.currentPage > res.data.total_pages) {
+        loadMore.value = false;
+    }else{
+        loadMore.value = true
+    }
+
+    vacanciesStore.loading = false
+}
+
+watch(sortBy, async() => {
+    await getVacanciesInWatch()
+})
+
+
+watch(vacancySearchName, async() => {
+    await getVacanciesInWatch()
+})
 
 onUnmounted(() => {
     districtsStore.resetStore()

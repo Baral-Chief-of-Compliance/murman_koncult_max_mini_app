@@ -140,10 +140,10 @@ onMounted(async () => {
     }
 });
 
-const { sortBy,  vacancySearchName} = storeToRefs(vacanciesStore)
+const { sortBy,  vacancySearchName } = storeToRefs(vacanciesStore)
 
-watch(sortBy, async() => {
-    // console.log(`Поиск изменился с "${oldQuery}" на "${newQuery}"`);
+
+const getVacanciesInWatch = async() => {
     vacanciesStore.loading = true
     vacanciesStore.vacancies = []
     vacanciesStore.currentPage = 1
@@ -167,32 +167,15 @@ watch(sortBy, async() => {
     }
 
     vacanciesStore.loading = false
+}
+
+
+watch(sortBy, async() => {
+    await getVacanciesInWatch()
 });
 
 watch(vacancySearchName, async() => {
-    vacanciesStore.loading = true
-    vacanciesStore.vacancies = []
-    vacanciesStore.currentPage = 1
-
-    const res = await getAllVacancies(
-        vacanciesStore.currentPage,
-        vacanciesStore.vacancySearchName,
-        vacanciesStore.sortBy
-    );
-
-    if (res.status !== 200) {
-        return;
-    }
-
-    vacanciesStore.vacancies = vacanciesStore.vacancies.concat(res.data.results);
-    vacanciesStore.currentPage += 1;
-    if (vacanciesStore.currentPage > res.data.total_pages) {
-        loadMore.value = false;
-    }else{
-        loadMore.value = true
-    }
-
-    vacanciesStore.loading = false
+    await getVacanciesInWatch()
 })
 
 onUnmounted(() => {

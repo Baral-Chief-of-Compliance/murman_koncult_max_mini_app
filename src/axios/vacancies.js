@@ -12,12 +12,21 @@ export async function getVacancies(
     minAddressCode,
     maxAddressCode,
     page=1,
-    vacanciName = ''
+    vacanciName = '',
+    ordering = null
 ){
     let params = {
         address_code__gte: minAddressCode,
         address_code__lte: maxAddressCode,
         page: page
+    }
+
+    if (vacanciName.length > 0){
+        params.search = vacanciName
+    }
+
+    if (ordering !== null){
+        params.ordering = ordering
     }
 
     if (vacanciName.length > 0){
@@ -76,7 +85,7 @@ export async function getAllVacancies(
  */
 export async function getVacancieDetail(id){
     const res = await api.get(
-        `vacansy-controller/vacancies/${id}/`, 
+        `/vacancies/${id}/`, 
     )
 
     return res

@@ -10,7 +10,7 @@
         
         <q-card-actions align="right">
             <q-btn v-if="userStore.fromMax" size="md" icon="star" unelevated color="blue" outline  />
-            <q-btn size="md" icon="more_horiz" unelevated color="blue" outline  />
+            <q-btn @click="showDeatilInfoAboutVacancie" size="md" icon="more_horiz" unelevated color="blue" outline  />
         </q-card-actions>
     </q-card>
 </template>
@@ -18,12 +18,12 @@
 <script setup>
 import { computed } from 'vue';
 import { useUserStore } from 'src/stores/user-store';
-// import { useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 
-// import VacancieDetailDialog from './VacancieDetailDialog.vue';
+import VacancieDetailInfo from './VacancieDetailInfo.vue';
 
 
-// const $q = useQuasar()
+const $q = useQuasar()
 
 const userStore = useUserStore()
 
@@ -71,14 +71,14 @@ const companyLabel = computed(() => {
     return props.company
 })
 
-// const showDeatilInfoAboutVacancie = () => {
-//     $q.dialog({
-//         component: VacancieDetailDialog,
-//         componentProps: {
-//             vacancieId: props.id
-//         }
-//     })
-// }
+const showDeatilInfoAboutVacancie = () => {
+    $q.dialog({
+        component: VacancieDetailInfo,
+        componentProps: {
+            vacancieId: props.id
+        }
+    })
+}
 
 </script>
 
