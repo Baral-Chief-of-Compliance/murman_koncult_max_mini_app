@@ -67,6 +67,9 @@ import MetaInfo from 'src/components/MetaInfo.vue'
 import { useElementSize } from '@vueuse/core'
 import { useUserStore } from 'src/stores/user-store'
 import UserInfoHeader from 'src/components/UserInfoHeader.vue'
+import { getUser, addUser } from 'src/axios/users'
+import { getFavoriteVacancies } from 'src/axios/favoriteVacancies'
+import { useFavoriteVacancies } from 'src/stores/favorite-vacancie-store'
 
 
 const footerRef = ref(null)
@@ -81,6 +84,7 @@ provide('breadCrumbHeight', breadCrumbHeight)
 
 
 const userStore = useUserStore()
+const favoriteVacanciesStore = useFavoriteVacancies()
 
 const linksList = computed(() => {
   let list = [
@@ -122,7 +126,7 @@ function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-onMounted(() => {
+onMounted(async() => {
   if (Object.keys(window.WebApp.initDataUnsafe).length !== 0){
     const initData = window.WebApp.initDataUnsafe
     userStore.fromMax = true
@@ -131,6 +135,37 @@ onMounted(() => {
     userStore.firstName = initData.user.first_name
     userStore.lastName = initData.user.last_name
     userStore.photoUrl = initData.user.photo_url
+
+    const res = await getUser(userStore.id).catch(
+      async (error) => {
+        if (error.response) {
+            // Server responded with a status code outside 2xx
+            if (error.response.status === 404) {
+              await addUser(userStore.id)
+            } else {
+              console.log(`Error ${error.response.status}:`, error.response.data);
+            }
+          } else if (error.request) {
+            // Request was made but no response received
+            console.log('No response received from server');
+          } else {
+            // Something happened in setting up the request
+            console.log('Error:', error.message);
+          }
+      }
+    )
+    if (res.status === 200){
+      const favoriteRes = await getFavoriteVacancies(
+        userStore.id
+      )
+
+      if (favoriteRes.status !== 200){
+        return;
+      }
+
+      favoriteVacanciesStore.setVacancies(favoriteRes.data)
+    }
+
   }
 })
 </script>

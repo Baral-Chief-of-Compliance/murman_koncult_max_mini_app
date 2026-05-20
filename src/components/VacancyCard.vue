@@ -9,7 +9,15 @@
         </q-card-section>
         
         <q-card-actions align="right">
-            <q-btn v-if="userStore.fromMax" size="md" icon="star" unelevated color="blue" outline  />
+            <q-btn 
+                v-if="userStore.fromMax"
+                size="md"
+                icon="star"
+                unelevated
+                :color="favoriteBtnColor"
+                outline 
+                @click="addVacancyToFavorite"
+            />
             <q-btn @click="showDeatilInfoAboutVacancie" size="md" icon="more_horiz" unelevated color="blue" outline  />
         </q-card-actions>
     </q-card>
@@ -21,11 +29,14 @@ import { useUserStore } from 'src/stores/user-store';
 import { useQuasar } from 'quasar';
 
 import VacancieDetailInfo from './VacancieDetailInfo.vue';
+import { addToFavoriteVacancie, deleteFavoriteVacancie, getFavoriteVacancies } from 'src/axios/favoriteVacancies';
+import { useFavoriteVacancies } from 'src/stores/favorite-vacancie-store';
 
 
 const $q = useQuasar()
 
 const userStore = useUserStore()
+const fvStore = useFavoriteVacancies()
 
 const props = defineProps({
     id:{
@@ -71,6 +82,10 @@ const companyLabel = computed(() => {
     return props.company
 })
 
+const favoriteBtnColor = computed(() => {
+    return fvStore.vacanciesId.includes(props.id) ? 'orange': 'blue'
+})
+
 const showDeatilInfoAboutVacancie = () => {
     $q.dialog({
         component: VacancieDetailInfo,
@@ -78,6 +93,82 @@ const showDeatilInfoAboutVacancie = () => {
             vacancieId: props.id
         }
     })
+}
+
+const addVacancyToFavorite = async () => {
+    if (fvStore.vacanciesId.includes(props.id)){
+        const fv = fvStore.getFavoriteVacancieId(props.id)
+
+        if (fv){
+            const res = await deleteFavoriteVacancie(fv.id)
+
+            if (res.status !== 204){
+                $q.notify({
+                    type: 'negative',
+                    message: `Произошла ошибка при удалении`
+                })
+            }
+
+            $q.notify({
+                type: 'warning',
+                message: `${props.name} удалена из избранного`
+            })
+
+            const resListFv = await getFavoriteVacancies(
+                userStore.id
+            )
+
+            if (resListFv.status !== 200){
+                $q.notify({
+                    type: 'negative',
+                    message: `Произошла ошибка при удалении`
+                })
+            }
+
+            fvStore.setVacancies(resListFv.data)
+
+        }else{
+            $q.notify({
+                type: 'negative',
+                message: `Что-то пошло не так`
+            })
+        }
+    }else{
+        const res = await addToFavoriteVacancie(
+            props.id,
+            userStore.id
+        )
+
+        if (res.status != 201){
+            $q.notify({
+                type: 'negative',
+                message: `Произошла ошибка при добавлении в избранное`
+            })
+            return;
+        }
+
+        $q.notify({
+            type: 'positive',
+            message: `${props.name} добавлена в избранное`
+        })
+        
+        fvStore.favoriteVacancies.push(
+            {
+                id : res.data.id,
+                user: res.data.user,
+                vacancy: res.data.vacancy,
+                vacancy_name: props.name,
+                salary: props.salary,
+                vacancy_address: props.address,
+                salary_max: props.salaryMax,
+                salary_min: props.salaryMin,
+                work_places: props.workPlaces,
+                full_company_name: props.company
+            }
+        )
+        fvStore.vacanciesId.push(res.data.vacancy)
+    }
+
 }
 
 </script>
