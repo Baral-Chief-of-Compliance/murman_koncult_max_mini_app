@@ -8,7 +8,17 @@
             <div class="q-mt-sm vacansy-card-salary">{{ props.salary }}</div>
         </q-card-section>
         
-        <q-card-actions align="right">
+        <q-card-actions>
+            <q-btn 
+                icon="comment"
+                label="Откликнуться" 
+                unelevated rounded no-caps
+                class="text-white"
+                color="blue"
+                :href="props.vacancyUrl"
+                target="_blank"
+            />
+            <q-space></q-space>
             <q-btn 
                 v-if="userStore.fromMax"
                 size="md"
@@ -70,6 +80,10 @@ const props = defineProps({
     company: {
         type: String,
         default: 'Наименование компании'
+    },
+    vacancyUrl: {
+        type: String,
+        default: 'https://trudvsem.ru/'
     }
 
 })
@@ -163,7 +177,8 @@ const addVacancyToFavorite = async () => {
                 salary_max: props.salaryMax,
                 salary_min: props.salaryMin,
                 work_places: props.workPlaces,
-                full_company_name: props.company
+                full_company_name: props.company,
+                vacancy_url: props.vacancyUrl
             }
         )
         fvStore.vacanciesId.push(res.data.vacancy)

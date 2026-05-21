@@ -20,6 +20,7 @@
                         :salary-min="v.salaryMin"
                         :work-places="v.workPlaces"
                         :company="v.fullCompanyName"
+                        :vacancy-url="v.vacancyUrl"
                     />
                 </div>
             </infinite-scroll>

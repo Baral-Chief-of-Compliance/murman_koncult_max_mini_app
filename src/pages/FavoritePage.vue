@@ -16,6 +16,7 @@
                         :salary-min="v.salary_min"
                         :work-places="v.work_places"
                         :company="v.full_company_name"
+                        :vacancy-url="v.vacancy_url"
                     />
                 </div>
             </scroll-page>
