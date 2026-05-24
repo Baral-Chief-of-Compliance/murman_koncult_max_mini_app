@@ -28,6 +28,7 @@
 import PageContainer from 'src/components/PageContainer.vue';
 import EmptyContent from 'src/components/EmptyContent.vue';
 import VacancyCard from 'src/components/VacancyCard.vue';
+import ScrollPage from 'src/components/ScrollPage.vue';
 
 import { useFavoriteVacancies } from 'src/stores/favorite-vacancie-store';
 

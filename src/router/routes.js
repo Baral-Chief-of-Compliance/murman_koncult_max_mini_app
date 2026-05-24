@@ -1,5 +1,5 @@
 import { VACANCIES, DISTRICTS, FAVORITE, INDEX,
-  DISTRICTS_DETAIL, NOT_FOUND, SERVER_ERROR} from './pathName'
+  DISTRICTS_DETAIL, NOT_FOUND, SERVER_ERROR, RESUME} from './pathName'
 
 
 const routes = [
@@ -11,7 +11,8 @@ const routes = [
       { path: DISTRICTS, component: () => import('pages/DistrictsPage.vue'), name: DISTRICTS},
       { path: DISTRICTS + '/:id(\\d+)', component: () => import('pages/DistrictsDetailPage.vue'), name: DISTRICTS_DETAIL},
       { path: VACANCIES, component: () => import('pages/VacanciesPage.vue'), name: VACANCIES},
-      { path: FAVORITE, component: () => import('pages/FavoritePage.vue'), name: FAVORITE}
+      { path: FAVORITE, component: () => import('pages/FavoritePage.vue'), name: FAVORITE},
+      { path: RESUME, component: () => import('pages/ResumePage.vue'), name: RESUME}
     ]
   },
 

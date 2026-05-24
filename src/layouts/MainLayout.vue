@@ -62,7 +62,7 @@ import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
 import AppLogo from 'src/components/AppLogo.vue'
 import BreadCrumbsPanel from 'src/components/BreadCrumbsPanel.vue'
-import { VACANCIES, DISTRICTS, FAVORITE } from 'src/router/pathName'
+import { VACANCIES, DISTRICTS, FAVORITE, RESUME } from 'src/router/pathName'
 import MetaInfo from 'src/components/MetaInfo.vue'
 import { useElementSize } from '@vueuse/core'
 import { useUserStore } from 'src/stores/user-store'
@@ -109,6 +109,17 @@ const linksList = computed(() => {
         caption: 'Ваши выбранные вакансии',
         icon: 'star',
         to: { name: FAVORITE}
+      }
+    )
+  }
+
+  if (userStore.fromMax){
+    list.push(
+      {
+        title: 'Резюме',
+        caption: 'Ваши резюме',
+        icon: 'docs',
+        to: { name: RESUME }
       }
     )
   }
