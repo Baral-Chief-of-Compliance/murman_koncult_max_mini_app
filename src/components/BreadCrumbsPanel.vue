@@ -59,7 +59,7 @@
 
 
 <script setup>
-import { VACANCIES, DISTRICTS, DISTRICTS_DETAIL, INDEX, FAVORITE } from 'src/router/pathName';
+import { VACANCIES, DISTRICTS, DISTRICTS_DETAIL, INDEX, FAVORITE, RESUME } from 'src/router/pathName';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
@@ -127,6 +127,10 @@ const breadCrumbLabel = computed(() => {
         case FAVORITE:
             label = 'Избранное'
             break;
+
+        case RESUME:
+            label = 'Резюме';
+            break;
         
         default:
             label = 'Раздел'
@@ -174,6 +178,10 @@ const breadCrumbIcon = computed(() => {
         
         case VACANCIES:
             icon = 'engineering'
+            break;
+
+        case RESUME:
+            icon = 'book';
             break;
         
         default:

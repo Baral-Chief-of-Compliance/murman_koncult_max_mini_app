@@ -113,12 +113,12 @@ const linksList = computed(() => {
     )
   }
 
-  if (userStore.fromMax){
+  if (!userStore.fromMax){
     list.push(
       {
         title: 'Резюме',
         caption: 'Ваши резюме',
-        icon: 'docs',
+        icon: 'book',
         to: { name: RESUME }
       }
     )
