@@ -6,7 +6,8 @@
         <q-card>
             <q-form
                 class="q-gutter-md"
-                @submit="onDialogOK" @reset="onDialogCancel"
+                @submit="onDialogOK(toRaw(dataDialog))"
+                @reset="onDialogCancel"
             >
             <q-card-section>
                 <div class="text-h6">Добавить резюме</div>
@@ -46,7 +47,8 @@
                     no-caps
                     color="indigo"
                     label="Добавить"
-                    type="submit"                >
+                    type="submit"
+                >
                 </q-btn>
 
                 <q-btn 
@@ -66,10 +68,16 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive,toRaw } from 'vue';
 import { useDialogPluginComponent } from 'quasar';
 
 const { dialogRef, onDialogHide, onDialogCancel, onDialogOK } = useDialogPluginComponent()
+
+defineEmits([
+// REQUIRED; need to specify some events that your
+// component will emit through useDialogPluginComponent()
+...useDialogPluginComponent.emits
+])
 
 const dataDialog = reactive({
     name: '',

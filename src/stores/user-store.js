@@ -9,7 +9,6 @@ export const useUserStore = defineStore('user', {
         firstName: null,
         lastName: null,
         photoUrl: null,
-        favoriteVacancies: []
     }),
 
     actions: {

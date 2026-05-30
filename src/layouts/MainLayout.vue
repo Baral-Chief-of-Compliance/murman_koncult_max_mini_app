@@ -70,6 +70,10 @@ import UserInfoHeader from 'src/components/UserInfoHeader.vue'
 import { getUser, addUser } from 'src/axios/users'
 import { getFavoriteVacancies } from 'src/axios/favoriteVacancies'
 import { useFavoriteVacancies } from 'src/stores/favorite-vacancie-store'
+import { useVacancyResponseStore } from 'src/stores/vacancy-response-store'
+import { useResumeStore } from 'src/stores/resume-store'
+import { getResumes } from 'src/axios/resume'
+import { getVacancyResponses } from 'src/axios/vacansyResponse'
 
 
 const footerRef = ref(null)
@@ -85,6 +89,8 @@ provide('breadCrumbHeight', breadCrumbHeight)
 
 const userStore = useUserStore()
 const favoriteVacanciesStore = useFavoriteVacancies()
+const resumeStore = useResumeStore()
+const vacancyResponseStore = useVacancyResponseStore()
 
 const linksList = computed(() => {
   let list = [
@@ -113,7 +119,7 @@ const linksList = computed(() => {
     )
   }
 
-  if (!userStore.fromMax){
+  if (userStore.fromMax){
     list.push(
       {
         title: 'Резюме',
@@ -154,18 +160,20 @@ onMounted(async() => {
             if (error.response.status === 404) {
               await addUser(userStore.id)
             } else {
-              console.log(`Error ${error.response.status}:`, error.response.data);
+              console.error(`Error ${error.response.status}:`, error.response.data);
             }
           } else if (error.request) {
             // Request was made but no response received
-            console.log('No response received from server');
+            console.error('No response received from server');
           } else {
             // Something happened in setting up the request
-            console.log('Error:', error.message);
+            console.error('Error:', error.message);
           }
       }
     )
     if (res.status === 200){
+
+      // Настройка избранных вакансий
       const favoriteRes = await getFavoriteVacancies(
         userStore.id
       )
@@ -175,6 +183,38 @@ onMounted(async() => {
       }
 
       favoriteVacanciesStore.setVacancies(favoriteRes.data)
+    }
+
+    // Настройка резюме
+    const resumeRes = await getResumes(userStore.id)
+
+    if (resumeRes.status !== 200){
+      return;
+    }
+
+    for (const r of resumeRes.data){
+      resumeStore.resume.push(
+        {
+          id: r.id,
+          name: r.name,
+          date: r.date
+        }
+      )
+    }
+
+
+    //Настройка откликов пользователя
+    
+    for (const r of resumeStore.resume){
+      const vacancyResponseRes = await getVacancyResponses(r.id)
+
+      if (vacancyResponseRes.status !== 200){
+        return;
+      }
+
+      for (const vr of vacancyResponseRes.data){
+        vacancyResponseStore.addVacancyResponse(vr.vacancy_id)
+      }
     }
 
   }

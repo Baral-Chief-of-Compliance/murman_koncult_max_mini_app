@@ -12,7 +12,8 @@
 
         <div class="column q-mt-md flex-center">
           <q-btn @click="router.push({name: DISTRICTS})" class="punkt q-mb-sm" no-caps color="orange" unelevated rounded label="Районы" />
-          <q-btn @click="router.push({name: VACANCIES})" class="punkt" no-caps color="orange" unelevated rounded label="Вакансии" />
+          <q-btn @click="router.push({name: VACANCIES})" class="punkt q-mb-sm" no-caps color="orange" unelevated rounded label="Вакансии" />
+          <q-btn @click="router.push({name: RESUME})" class="punkt" no-caps color="orange" unelevated rounded label="Резюме" />
         </div>
       </div>
     </template>
@@ -22,7 +23,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 
-import { DISTRICTS, VACANCIES } from 'src/router/pathName';
+import { DISTRICTS, VACANCIES, RESUME } from 'src/router/pathName';
 import PageContainer from 'src/components/PageContainer.vue';
 import UserData from 'src/components/UserData.vue';
 import { useUserStore } from 'src/stores/user-store';

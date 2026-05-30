@@ -4,34 +4,73 @@
             <div class="vacansy-card-name">{{ props.name }}</div>
             <div class="q-mt-sm vacansy-card-salary">{{ formatDate }}</div>
         </q-card-section>
+
+        <q-card-actions align="right">
+            <q-btn
+                unelevated outline
+                icon="delete"
+                color="red"
+                @click="deleteR"
+            >
+            </q-btn>
+        </q-card-actions>
     </q-card>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useQuasar } from 'quasar';
 
-    const props = defineProps({
-        name: {
-            type: String,
-            default: 'Наименование'
-        },
+import { deleteResume } from 'src/axios/resume';
+import { useResumeStore } from 'src/stores/resume-store';
 
-        file: {
-            type: String,
-            default: null
-        },
 
-        date: {
-            type: String,
-            default: '2023-07-05'
-        }
-    })
+const $q = useQuasar()
+const resumeStore = useResumeStore()
+
+const props = defineProps({
+    id: {
+        type: Number,
+    },
+
+    name: {
+        type: String,
+        default: 'Наименование'
+    },
+
+    date: {
+        type: String,
+        default: '2023-07-05'
+    }
+})
 
 
 const formatDate = computed(() => {
     const date = new Date(props.date)
-    return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+    return `Дата добавления: ${day}.${month}.${year}`
 })
+
+const deleteR = async() => {
+   
+    const res = await deleteResume(props.id)
+
+    if (res.status !== 204){
+        $q.notify({
+            type: 'negative',
+            message: `Произошла ошибка при удалении`
+        })
+    }
+
+    $q.notify({
+        type: 'warning',
+        message: `Резюме ${props.name} удалено`
+    })
+
+    resumeStore.resume = resumeStore.resume.filter(r => r.id !== props.id)
+}
 
 </script>
 

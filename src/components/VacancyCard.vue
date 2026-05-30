@@ -2,22 +2,27 @@
     <!-- <q-card @click="showDeatilInfoAboutVacancie" class="no-shadow vacansy-card q-mb-md"> -->
     <q-card  class="text-left no-shadow vacansy-card q-mb-md">
         <q-card-section>
-            <div class="vacansy-card-name">{{ props.name }}</div>
+            <div class="vacansy-card-name">
+                {{ props.name }}
+                <q-badge v-if="vacancyResponseStore.vacancyResponse.includes(props.id)  " color="orange">Вы откликнулись</q-badge>
+            </div>
             <div class="q-mt-sm vacansy-card-company">{{ companyLabel }}</div>
             <div class="q-mt-xs vacansy-card-address">{{ props.address }}</div>
             <div class="q-mt-sm vacansy-card-salary">{{ props.salary }}</div>
         </q-card-section>
         
         <q-card-actions>
-            <q-btn 
+            <q-btn
+                :disable="vacancyResponseStore.vacancyResponse.includes(props.id)"
                 icon="comment"
                 label="Откликнуться" 
                 unelevated rounded no-caps
                 class="text-white"
                 color="blue"
-                :href="props.vacancyUrl"
-                target="_blank"
+                @click="showChoseVacancyDialog"
             />
+            <!-- :href="props.vacancyUrl"
+            target="_blank" -->
             <q-space></q-space>
             <q-btn 
                 v-if="userStore.fromMax"
@@ -41,12 +46,16 @@ import { useQuasar } from 'quasar';
 import VacancieDetailInfo from './VacancieDetailInfo.vue';
 import { addToFavoriteVacancie, deleteFavoriteVacancie, getFavoriteVacancies } from 'src/axios/favoriteVacancies';
 import { useFavoriteVacancies } from 'src/stores/favorite-vacancie-store';
+import ChoseVacancyDialog from './ChoseVacancyDialog.vue';
+import { addVacancyResponse } from 'src/axios/vacansyResponse.js';
+import { useVacancyResponseStore } from 'src/stores/vacancy-response-store.js';
 
 
 const $q = useQuasar()
 
 const userStore = useUserStore()
 const fvStore = useFavoriteVacancies()
+const vacancyResponseStore = useVacancyResponseStore()
 
 const props = defineProps({
     id:{
@@ -106,6 +115,54 @@ const showDeatilInfoAboutVacancie = () => {
         componentProps: {
             vacancieId: props.id
         }
+    })
+}
+
+const showChoseVacancyDialog = () => {
+    $q.dialog({
+        component: ChoseVacancyDialog,
+        componentProps: {
+            name: props.name
+        }
+    }).onOk(async(data) => {
+        const res = await addVacancyResponse(
+            data,
+            props.id,
+            props.vacancyUrl
+        ).catch(
+            async (error) => {
+                if (error.response){
+                    console.error(`Error ${error.response.status}:`, error.response.data);
+                }else if (error.request) {
+                    // Request was made but no response received
+                    console.error('No response received from server');
+                } else {
+                    // Something happened in setting up the request
+                    console.error('Error:', error.message);
+                }
+                $q.notify({
+                    type: 'negative',
+                    message: `Произошла ошибка при отклике`
+                });
+            }
+        )
+
+        if (res.status != 201){
+            $q.notify({
+                type: 'negative',
+                message: `Произошла ошибка при отклике`
+            });
+            return;
+        }
+
+        $q.notify({
+            type: 'positive',
+            message: `Вы откликнулись на «${props.name}»`
+        })
+
+        vacancyResponseStore.vacancyResponse.push(
+            props.id
+        )
     })
 }
 
