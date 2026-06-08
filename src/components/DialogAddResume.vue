@@ -11,7 +11,7 @@
             >
             <q-card-section>
                 <div class="text-h6">Добавить резюме</div>
-                <div class="q-mt-md text-personal-data">При отправке резюме Вы соглашаетесь, что ознакомлены с <a target="_blank" href="Политика обработки ПДН в ГОКУ ЦЗН МО.pdf" class="text-indigo">Политикой конфиденциальности</a> и даете согласие на обработку персональных данных</div>
+                <div class="q-mt-md text-personal-data">При отправке резюме Вы соглашаетесь, что ознакомлены с <a target="_blank" href="https://disk.yandex.ru/i/qEI1KA6BtLV5Sg" class="text-indigo">Политикой конфиденциальности</a> и даете согласие на обработку персональных данных</div>
 
                 <q-input
                     class="q-mt-lg"

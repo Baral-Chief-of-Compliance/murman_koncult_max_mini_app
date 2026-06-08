@@ -1,7 +1,9 @@
 <template>
     <page-container :flex="false">
         <template #content>
-            <scroll-area>
+            <scroll-area
+                :height="scrollAreaHeight"
+            >
                 <empty-content v-if="resumeStore.resume.length === 0" />
                 <div class="q-mx-md" v-else>
                     <resume-card 
@@ -33,6 +35,8 @@
 
 <script setup>
 import { useQuasar } from 'quasar';
+import { inject, computed } from 'vue';
+import { useWindowSize } from '@vueuse/core';
 
 import PageContainer from 'src/components/PageContainer.vue';
 import EmptyContent from 'src/components/EmptyContent.vue';
@@ -88,7 +92,7 @@ const showDialogAddResume = () =>{
             message: `Резюме ${data.name} добавлен`
         })
 
-        resumeStore.resume.push(
+        resumeStore.resume.unshift(
             {
                 id: res.data.id,
                 name: res.data.name,
@@ -97,5 +101,15 @@ const showDialogAddResume = () =>{
         )
     })
 }
+
+const footerHeight = inject('footerHeight')
+const headerHeight = inject('headerHeight')
+const breadCrumbHeight = inject('breadCrumbHeight')
+
+const {height: windowHeight} = useWindowSize()
+
+const scrollAreaHeight = computed(() => {
+    return (windowHeight.value - (footerHeight.value + headerHeight.value + breadCrumbHeight.value + 100)) + 'px'
+})
 
 </script>
