@@ -16,7 +16,7 @@ const routes = [
       { path: FAVORITE, component: () => import('pages/FavoritePage.vue'), name: FAVORITE},
       { path: RESUME, component: () => import('pages/ResumePage.vue'), name: RESUME},
       { path: PRE_REG, component: () => import('pages/PreRegPage.vue'), name: PRE_REG},
-      { path: PRE_REG_DETAIL, component: () => import('pages/PreRegDetailPage.vue'), name: PRE_REG_DETAIL}
+      { path: PRE_REG + '/:id(\\d+)', component: () => import('pages/PreRegDetailPage.vue'), name: PRE_REG_DETAIL}
     ]
   },
 
