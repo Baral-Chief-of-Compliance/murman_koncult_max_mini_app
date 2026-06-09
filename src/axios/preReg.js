@@ -12,6 +12,18 @@ class PrePregistrationService{
         return res
     }
 
+
+    /**
+     * Получить очередь перегистрации по её id
+     * @param {number} preRegId 
+     * @returns 
+     */
+    async get(preRegId){
+        const res = await apiPreReg.get(`/${preRegId}/`)
+
+        return res
+    }
+
     /**
      * Проверить находиться ли очередь в онлайн статусе
      * @param {number} preRegId 
@@ -47,4 +59,4 @@ class PrePregistrationService{
 }
 
 
-export default PrePregistrationService
+export default new PrePregistrationService();
