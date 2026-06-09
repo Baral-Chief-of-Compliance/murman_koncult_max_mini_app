@@ -66,10 +66,12 @@ import { computed } from 'vue';
 
 import { useDistircts } from 'src/stores/districts-store';
 import { useVacancies, VACANCY_SORT } from 'src/stores/vacancies-store';
+import { usePreRegStore } from 'src/stores/pre-reg-store';
 
 
 const districtsStore = useDistircts()
 const vacanciesStore = useVacancies()
+const preRegStore = usePreRegStore()
 
 
 const route = useRoute()
@@ -158,6 +160,14 @@ const secondBreadCrumbLabel = computed(() => {
                 label = 'Загрузка...'
             }else{
                 label = districtsStore.districtName
+            }
+            break;
+
+        case PRE_REG_DETAIL:
+            if (preRegStore.name == null){
+                label = 'Загрузка...';
+            }else{
+                label = preRegStore.name;
             }
             break;
 
