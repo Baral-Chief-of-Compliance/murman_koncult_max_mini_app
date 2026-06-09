@@ -59,7 +59,8 @@
 
 
 <script setup>
-import { VACANCIES, DISTRICTS, DISTRICTS_DETAIL, INDEX, FAVORITE, RESUME } from 'src/router/pathName';
+import { VACANCIES, DISTRICTS, DISTRICTS_DETAIL, INDEX, 
+    FAVORITE, RESUME, PRE_REG, PRE_REG_DETAIL } from 'src/router/pathName';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
@@ -79,6 +80,7 @@ const showSecondBreadcrumb = computed(() => {
 
     switch(route.name){
         case DISTRICTS_DETAIL:
+        case PRE_REG_DETAIL:
             show = true
             break;
 
@@ -96,8 +98,13 @@ const breadCrumbTo = computed(() => {
 
     switch(route.name){
         case DISTRICTS_DETAIL:
-            to = {name: DISTRICTS}
+            to = {name: DISTRICTS};
             break;
+
+        case PRE_REG_DETAIL:
+            to = {name: PRE_REG};
+            break;
+
         default:
             to = null
             break;
@@ -113,9 +120,6 @@ const breadCrumbLabel = computed(() => {
             break;
 
         case DISTRICTS:
-            label = 'Районы'
-            break;
-
         case DISTRICTS_DETAIL:
             label = 'Районы'
             break;
@@ -130,6 +134,11 @@ const breadCrumbLabel = computed(() => {
 
         case RESUME:
             label = 'Резюме';
+            break;
+
+        case PRE_REG:
+        case PRE_REG_DETAIL:
+            label = 'Запись на предварительную консультацию';
             break;
         
         default:
@@ -167,12 +176,9 @@ const breadCrumbIcon = computed(() => {
         case INDEX:
             icon = 'home'
             break;
-        
-        case DISTRICTS:
-            icon = 'location_on'
-            break;
 
         case DISTRICTS_DETAIL:
+        case DISTRICTS:
             icon = 'location_on'
             break;
         
@@ -182,6 +188,11 @@ const breadCrumbIcon = computed(() => {
 
         case RESUME:
             icon = 'book';
+            break;
+
+        case PRE_REG:
+        case PRE_REG_DETAIL:
+            icon = 'event';
             break;
         
         default:

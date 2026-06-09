@@ -50,7 +50,8 @@ export default defineConfig((ctx) => {
       publicPath: '/murman_koncult_max_mini_app/',
       // analyze: true,
       env: {
-        API: ctx.dev ? 'http://localhost:3001/api/v1.0/czn-kiosk/vacansy-controller' : 'https://murman-zan.ru/api/v1.0/czn-kiosk/vacansy-controller'
+        API: ctx.dev ? 'http://localhost:3001/api/v1.0/czn-kiosk/vacansy-controller' : 'https://murman-zan.ru/api/v1.0/czn-kiosk/vacansy-controller',
+        API_PRE_REG: ctx.dev ? 'http://localhost:3001/api/v1.0/czn-kiosk/pre-registration' : 'https://murman-zan.ru/api/v1.0/czn-kiosk/pre-registration'
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
